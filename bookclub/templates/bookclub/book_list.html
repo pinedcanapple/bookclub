@@ -1,0 +1,22 @@
+{% extends 'bookclub/base.html' %}
+{% block content %}
+  {% for post in posts %}
+    <div class = "post">
+      <div class = "date">
+        <p>submitted: {{ post.submitted_date }}</p>
+      </div>
+      <h2><a href="{% url 'book_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+      <p>
+          <img src = {{ post.book_cover.url }}>
+      </p>
+      <div class = "year">
+        <p>Published: {{ post.published_year }}</p>
+        <p>Ratings: {{ post.ratings }}/5</p>
+      </div>
+      <div class = 'synopsis'>
+        <p>{{ post.synopsis|linebreaksbr }}</p>
+      </div>
+      <a href="{% url 'book_detail' pk=post.pk %}">Reviews: {{ post.comments.count }}</a>
+    </div>
+  {% endfor %}
+{% endblock %}

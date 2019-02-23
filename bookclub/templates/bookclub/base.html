@@ -1,0 +1,33 @@
+{% load static %}
+<html>
+<head>
+  <title>Todtenkopf Book Club</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Aleo" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bookclub.css' %}">
+</head>
+<body>
+  <div class = "page-header">
+  <h1><a href="/">The Todtenkopf Book Club</a></h1>
+  {% if user.is_authenticated %}
+    <a href="{% url 'post_new' %}" class="top-menu">Add a new book <span class="glyphicon glyphicon-plus"></span></a>
+    <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+  {% else %}
+    <a href="{% url 'login' %}" class="top-menu">Log in <span class="glyphicon glyphicon-lock"></span></a>
+    <a href="{% url 'signup' %}" class="top-menu">Sign up <span class="glyphicon glyphicon-user"></span></a>
+  {% endif %}
+</div>
+<div class="content container">
+    <div class="row">
+      <div class="col-md-8">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

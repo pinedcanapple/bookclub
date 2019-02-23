@@ -1,0 +1,46 @@
+{% extends 'bookclub/base.html' %}
+  {% block content %}
+    <div class="book-detail">
+      {% if user.is_authenticated and book.poster == user.username %}
+        <a class="btn btn-default" href="{% url 'book_edit' pk=book.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-default" href="{% url 'book_remove' pk=book.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+      {% endif %}
+      <h2>{{ book.title }}</h2>
+      <p>
+        <div class = "cover">
+          <img src = {{ book.book_cover.url }}>
+        </div>
+      </p>
+
+        <div class ='summary'>
+          {% if book.published_year %}
+              <div class="info">
+                <p> Year published:  {{ book.published_year }} </p>
+                <p> Rating: {{ book.ratings }}/5</p>
+              </div>
+          {% endif %}
+          <p>
+            {{ book.synopsis|linebreaksbr }}
+          </p>
+        </div>
+    </div>
+    <div class = 'review'>
+    <hr>
+    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=book.pk %}">Add review</a>
+    <br/>
+    {% for comment in book.comments.all %}
+      {% if user.is_authenticated %}
+      <div class="comment">
+          <div class="date">{{ comment.created_date }}</div>
+          {% if user.username == comment.author %}
+          <a class="btn btn-default" href="{% url 'comment_remove' pk=book.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          {% endif %}
+          <strong>{{ comment.author }}</strong>
+          <p>{{ comment.text|linebreaks }}</p>
+      </div>
+      {% endif %}
+    {% empty %}
+      <p>No reviews yet :(</p>
+    {% endfor %}
+    </div>
+  {% endblock %}
